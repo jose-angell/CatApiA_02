@@ -4,8 +4,6 @@ namespace CatApiA_02.Dtos
 {
     public class UpdateCatRequest
     {
-        [Required(ErrorMessage = "El ID es un campo obligatorio")]
-        public Guid Id { get; set; }
         [Required(ErrorMessage = "El nombre es un campo obligatorio")]
         public string Name { get; set; }
         [Required(ErrorMessage = "La descripción es un campo obligatorio")]

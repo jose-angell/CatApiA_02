@@ -17,7 +17,7 @@ namespace CatApiA_02.Domain
             Description = string.Empty;
             Breed = string.Empty;
         }
-        private Cat(string name, string description, DateTimeOffset dateBirth, decimal weight, decimal height, string breed)
+        public Cat(string name, string description, DateTimeOffset dateBirth, decimal weight, decimal height, string breed)
         {
             var isValid = validate(name, description, dateBirth, breed);
 
@@ -29,7 +29,7 @@ namespace CatApiA_02.Domain
             Height = height;
             Breed = breed;
         }
-        private void Update(string name, string description, DateTimeOffset dateBirth, decimal weight, decimal height, string breed)
+        public void Update(string name, string description, DateTimeOffset dateBirth, decimal weight, decimal height, string breed)
         {
             var isValid = validate(name, description, dateBirth, breed);
 
