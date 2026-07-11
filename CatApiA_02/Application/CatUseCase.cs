@@ -1,6 +1,7 @@
 ﻿using CatApiA_02.Domain;
 using CatApiA_02.Dtos;
 using CatApiA_02.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatApiA_02.Application
 {
@@ -28,6 +29,31 @@ namespace CatApiA_02.Application
             cat.Update(request.Name, request.Description, request.DateBirth, request.Weight, request.Height, request.Breed);
             await _context.SaveChangesAsync();
             return null;
+        }
+        public async Task<string?> Delete(Guid id)
+        {
+            var cat = await _context.Cats.FindAsync(id);
+            if(cat == null)
+            {
+                return $"Cat with id {id} not found";
+            }
+            _context.Cats.Remove(cat);
+            await _context.SaveChangesAsync();
+            return null;
+        }
+        public async Task<CatDto?> GetById(Guid id)
+        {
+            var cat = await _context.Cats.FindAsync(id);
+            if (cat == null)
+            {
+                return null;
+            }
+            return MapToDto(cat);
+        }
+        public async Task<IEnumerable<CatDto>> GetAll()
+        {
+            var cats = await _context.Cats.ToListAsync();
+            return cats.Select(MapToDto);
         }
         private static CatDto MapToDto(Cat cat) => new CatDto
         {
