@@ -12,7 +12,7 @@ namespace CatApiA_02.Application
         {
             _context = context;
         }
-        public async Task<CatDto> Crate(CreateCatRequest request)
+        public async Task<CatDto> Create(CreateCatRequest request)
         {
             var newCat = new Cat(request.Name, request.Description, request.DateBirth, request.Weight, request.Height, request.Breed);
             await _context.Cats.AddAsync(newCat);
