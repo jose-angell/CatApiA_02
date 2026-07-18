@@ -21,10 +21,7 @@ namespace CatApiA_02.Controllers
                 return BadRequest("El id es obligatorio");
             }
             var cat = await _useCase.GetById(id);
-            if (cat == null)
-            {
-                return NotFound();
-            }
+            
             return Ok(cat);
         }
         [HttpGet]
@@ -46,11 +43,7 @@ namespace CatApiA_02.Controllers
             {
                 return BadRequest("El id es obligatorio");
             }
-            var result = await _useCase.Update(id, request);
-            if (result != null)
-            {
-                return BadRequest(result);
-            }
+            await _useCase.Update(id, request);
             return NoContent();
         }
         [HttpDelete("{id:guid}")]
@@ -60,11 +53,7 @@ namespace CatApiA_02.Controllers
             {
                 return BadRequest("El id es obligatorio");
             }
-            var result = await _useCase.Delete(id);
-            if (result != null)
-            {
-                return BadRequest(result);
-            }
+            await _useCase.Delete(id);
             return NoContent();
         }
     }

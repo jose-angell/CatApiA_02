@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Eventing.Reader;
+﻿using CatApiA_02.Domain.Exceptions;
+using System.Diagnostics.Eventing.Reader;
 
 namespace CatApiA_02.Domain
 {
@@ -19,7 +20,7 @@ namespace CatApiA_02.Domain
         }
         public Cat(string name, string description, DateTimeOffset dateBirth, decimal weight, decimal height, string breed)
         {
-            var isValid = validate(name, description, dateBirth, breed);
+            validate(name, description, dateBirth, breed);
 
             Id = Guid.NewGuid();
             Name = name;
@@ -31,7 +32,7 @@ namespace CatApiA_02.Domain
         }
         public void Update(string name, string description, DateTimeOffset dateBirth, decimal weight, decimal height, string breed)
         {
-            var isValid = validate(name, description, dateBirth, breed);
+            validate(name, description, dateBirth, breed);
 
             Name = name;
             Description = description;
@@ -40,17 +41,16 @@ namespace CatApiA_02.Domain
             Height = height;
             Breed = breed;
         }
-        private bool validate(string name, string description, DateTimeOffset dateBirth, string breed)
+        private void validate(string name, string description, DateTimeOffset dateBirth, string breed)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be null or empty.", nameof(name));
+                throw new DomainException("Name cannot be null or empty.", nameof(name));
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Description cannot be null or empty.", nameof(description));
+                throw new DomainException("Description cannot be null or empty.", nameof(description));
             if (dateBirth == default)
-                throw new ArgumentException("Date of birth cannot be the default value.", nameof(dateBirth));
+                throw new DomainException("Date of birth cannot be the default value.", nameof(dateBirth));
             if (string.IsNullOrWhiteSpace(breed))
-                throw new ArgumentException("Breed cannot be null or empty.", nameof(breed));
-            return true;
+                throw new DomainException("Breed cannot be null or empty.", nameof(breed));
         }
     }
 }

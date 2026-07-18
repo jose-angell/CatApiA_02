@@ -1,4 +1,5 @@
 ﻿using CatApiA_02.Domain;
+using CatApiA_02.Domain.Exceptions;
 using CatApiA_02.Dtos;
 using CatApiA_02.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -19,23 +20,22 @@ namespace CatApiA_02.Application
             await _context.SaveChangesAsync();
             return MapToDto(newCat);
         }
-        public async Task<string?> Update(Guid id, UpdateCatRequest request)
+        public async Task Update(Guid id, UpdateCatRequest request)
         {
             var cat = await _context.Cats.FindAsync(id);
             if(cat == null)
             {
-                return $"Cat with id {id} not found";
+                throw new NotFoundException($"Cat with id {id} not found");
             }
             cat.Update(request.Name, request.Description, request.DateBirth, request.Weight, request.Height, request.Breed);
             await _context.SaveChangesAsync();
-            return null;
         }
         public async Task<string?> Delete(Guid id)
         {
             var cat = await _context.Cats.FindAsync(id);
             if(cat == null)
             {
-                return $"Cat with id {id} not found";
+                throw new NotFoundException($"Cat with id {id} not found");
             }
             _context.Cats.Remove(cat);
             await _context.SaveChangesAsync();
@@ -46,7 +46,7 @@ namespace CatApiA_02.Application
             var cat = await _context.Cats.FindAsync(id);
             if (cat == null)
             {
-                return null;
+                throw new NotFoundException($"Cat with id {id} not found");
             }
             return MapToDto(cat);
         }
